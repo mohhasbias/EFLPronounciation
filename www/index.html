@@ -1,19 +1,21 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="EFLApp">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+        
         <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        
+        <script src="js/index.js"></script>
+        
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+        <link rel="stylesheet" href="css/index.css">
     </head>
-    <body class="container">
-        <form>
-            <label>Name:</label>
-            <input type="text" ng-model="yourName" placeholder="Enter a name here">
-            <hr>
-        </form>
-        <div class="jumbotron">
-            <h1>Hello, {{yourName}}!</h1>
-        </div>
+    <body>
+        <div ui-view class="container"></div>
     </body>
 </html>
