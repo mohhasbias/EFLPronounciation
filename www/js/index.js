@@ -19,5 +19,13 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
         .state('tests', {
             url: '/tests',
             templateUrl: 'templates/partial-tests.html'
+        })
+        .state('test-vowel', {
+            url: '/test-vowel',
+            templateUrl: 'templates/partial-test-vowel.html'
+        })
+        .state('test-vowel-true', {
+            url: '/test-vowel-true',
+            templateUrl: 'templates/partial-test-vowel-true.html'
         });
 });
