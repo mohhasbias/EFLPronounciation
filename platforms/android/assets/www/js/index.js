@@ -22,7 +22,8 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
         })
         .state('test-vowel', {
             url: '/test-vowel',
-            templateUrl: 'templates/partial-test-vowel.html'
+            templateUrl: 'templates/partial-test-vowel.html',
+            controller: 'TestVowelController'
         })
         .state('test-vowel-true', {
             url: '/test-vowel-true',
@@ -30,6 +31,20 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
         });
 });
 
+EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', function($window, $scope, $log){
+  $scope.media = null;
+  
+  $scope.play = function(src){
+    var full_path = cordova.file.applicationDirectory + src;
+    $log.log("playing: " + full_path);
+    
+    if($scope.media !== null){
+      $scope.media.release();
+    }
+    $scope.media = new Media(full_path);
+    $scope.media.play();
+  };
+}]);
 
 var app = {
     // Application Constructor

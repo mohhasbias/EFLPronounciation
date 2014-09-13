@@ -1,5 +1,11 @@
 {
     "jscodehints.detectedExclusions": [
-        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/jquery/src/traversing/findFilter.js"
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/jquery/src/traversing/findFilter.js",
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/plugins/org.apache.cordova.media/www/MediaError.js",
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/angular-ui-router/src/templateFactory.js",
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/angular-ui-router/src/urlMatcherFactory.js",
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/angular-ui-router/src/urlRouter.js",
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/angular-ui-router/src/view.js",
+        "C:/Users/rumaisyah/Documents/CordovaWorkspace/hello-angular/www/bower_components/angular-ui-router/src/viewDirective.js"
     ]
 }
