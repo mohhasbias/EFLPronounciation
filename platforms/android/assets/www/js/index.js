@@ -32,17 +32,35 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
 });
 
 EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', function($window, $scope, $log){
-  $scope.media = null;
+  $scope.media_list_name = "success";
+  $scope.media_list = [ 
+    "www/audio/success.mp3",
+    "www/audio/suckses.mp3",
+    "www/audio/sackses.mp3"];
+  
+  $scope.media_player = null;
   
   $scope.play = function(src){
     var full_path = cordova.file.applicationDirectory + src;
     $log.log("playing: " + full_path);
     
-    if($scope.media !== null){
-      $scope.media.release();
+    if($scope.media_player !== null){
+      $scope.media_player.release();
     }
-    $scope.media = new Media(full_path);
-    $scope.media.play();
+    $scope.media_player = new Media(full_path);
+    $scope.media_player.play();
+  };
+  
+  $scope.playAt = function(index){
+    $log.log("halo " + index);
+//    $window.alert(index);
+    if( typeof cordova !== "undefined"){
+      $scope.play($scope.media_list[index]);
+    }
+  };
+  
+  $scope.nextChar = function(start, offset){
+    return String.fromCharCode(start.charCodeAt(0) + offset);
   };
 }]);
 
