@@ -36,6 +36,12 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
 });
 
 EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state', function($window, $scope, $log, $state){
+  $scope.shuffleArray = function(arr){
+    var new_arr = arr.slice(0);
+    
+    return new_arr.sort(function(){ return 0.5 - Math.random() });
+  };
+  
   $scope.questions = [
     { 
       vowel: "success", 
@@ -51,7 +57,7 @@ EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state',
   $scope.current_answer = "";
   
   $scope.media_list_name = $scope.current_question.vowel;
-  $scope.media_list = $scope.current_question.media;
+  $scope.media_list = $scope.shuffleArray($scope.current_question.media);
   
   $scope.media_player = null;
   
