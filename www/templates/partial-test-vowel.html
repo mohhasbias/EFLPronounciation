@@ -31,7 +31,7 @@
         <p style="margin: 0;" ng-click="playAt($index)">{{nextChar("A", $index)}}</p>
       </div>
       <div class="text-center">
-        <input type="radio" name="answer"/>
+        <input type="radio" ng-model="$parent.current_answer" value="{{media_list[$index]}}"/>
       </div>
     </div>
   </div>
@@ -41,6 +41,7 @@
   <div class="text-center text-muted small">
     <em>Tap the letter to hear the sound<br>
     Check the button to choose an answer<br>
+    Your answer is {{current_answer}}<br>
     Click submit</em>
   </div>
 </div>
@@ -48,8 +49,8 @@
 <br>
 <div class="row">
   <div class="col-xs-6 col-xs-offset-3">
-    <button ui-sref="test-vowel-true" type="submit" class="btn btn-primary btn-block">
-      Submit
+    <button type="submit" class="btn btn-primary btn-block" ng-click="nextQuestion()">
+      Check Answer
     </button>
   </div>
 </div>

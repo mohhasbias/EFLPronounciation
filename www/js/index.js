@@ -28,20 +28,36 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
         .state('test-vowel-true', {
             url: '/test-vowel-true',
             templateUrl: 'templates/partial-test-vowel-true.html'
+        })
+        .state('test-vowel-false', {
+            url: '/test-vowel-false',
+            templateUrl: 'templates/partial-test-vowel-false.html'
         });
 });
 
-EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', function($window, $scope, $log){
-  $scope.media_list_name = "success";
-  $scope.media_list = [ 
-    "www/audio/success.mp3",
-    "www/audio/suckses.mp3",
-    "www/audio/sackses.mp3"];
+EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state', function($window, $scope, $log, $state){
+  $scope.questions = [
+    { 
+      vowel: "success", 
+      media: [
+        "success.mp3",
+        "_success1.mp3",
+        "_success2.mp3"
+      ]
+    }
+  ];
+  
+  $scope.current_question = $scope.questions[0];
+  $scope.current_answer = "";
+  
+  $scope.media_list_name = $scope.current_question.vowel;
+  $scope.media_list = $scope.current_question.media;
   
   $scope.media_player = null;
   
   $scope.play = function(src){
-    var full_path = cordova.file.applicationDirectory + src;
+    var audio_path = "www/audio/";
+    var full_path = cordova.file.applicationDirectory + audio_path + src;
     $log.log("playing: " + full_path);
     
     if($scope.media_player !== null){
@@ -53,6 +69,7 @@ EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', function(
   
   $scope.playAt = function(index){
     $log.log("halo " + index);
+    $log.log($scope.media_list[index]);
 //    $window.alert(index);
     if( typeof cordova !== "undefined"){
       $scope.play($scope.media_list[index]);
@@ -61,6 +78,15 @@ EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', function(
   
   $scope.nextChar = function(start, offset){
     return String.fromCharCode(start.charCodeAt(0) + offset);
+  };
+  
+  $scope.nextQuestion = function(){
+    $scope.current_question++;
+    if( $scope.current_answer.indexOf('_') < 0 ){
+      $state.go('test-vowel-true');
+    } else {
+      $state.go('test-vowel-false');
+    }
   };
 }]);
 
