@@ -50,10 +50,19 @@ EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state',
         "_success1.mp3",
         "_success2.mp3"
       ]
+    },
+    {
+      vowel: "opportunity",
+      media: [
+        "opportunity.mp3",
+        "_opportunity1.mp3",
+        "_opportunity2.mp3"
+      ]
     }
   ];
   
-  $scope.current_question = $scope.questions[0];
+  $scope.question_number = 0;
+  $scope.current_question = $scope.questions[$scope.question_number];
   $scope.current_answer = "";
   
   $scope.media_list_name = $scope.current_question.vowel;

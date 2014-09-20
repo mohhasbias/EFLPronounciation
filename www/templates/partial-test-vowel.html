@@ -26,22 +26,22 @@
 <br>
 <div class="row">
   <div class="col-xs-12">
-    <div class="col-xs-4" ng-repeat="media in media_list">
-      <div class="text-center bg-primary btn-xl-circle">
-        <p style="margin: 0;" ng-click="playAt($index)">{{nextChar("A", $index)}}</p>
+    <form name="form">
+      <div class="col-xs-4" ng-repeat="media in media_list">
+        <label class="text-center" style="width: 100%;">
+          <div class="bg-primary btn-xl-circle">
+            <p style="margin: 0;" ng-click="playAt($index)">{{nextChar("A", $index)}}</p>
+          </div>
+          <input type="radio" ng-model="$parent.current_answer" value="{{media_list[$index]}}" required/>          
+        </label>
       </div>
-      <div class="text-center">
-        <input type="radio" ng-model="$parent.current_answer" value="{{media_list[$index]}}"/>
-      </div>
-    </div>
-  </div>
+    </form>
 </div>
 <br>
 <div class="row">
   <div class="text-center text-muted small">
     <em>Tap the letter to hear the sound<br>
     Check the button to choose an answer<br>
-    Your answer is {{current_answer}}<br>
     Click submit</em>
   </div>
 </div>
@@ -49,7 +49,7 @@
 <br>
 <div class="row">
   <div class="col-xs-6 col-xs-offset-3">
-    <button type="submit" class="btn btn-primary btn-block" ng-click="nextQuestion()">
+    <button type="submit" class="btn btn-primary btn-block" ng-click="nextQuestion()" ng-disabled="form.$invalid">
       Check Answer
     </button>
   </div>
