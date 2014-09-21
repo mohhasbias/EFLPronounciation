@@ -21,21 +21,28 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
             templateUrl: 'templates/partial-tests.html'
         })
         .state('test-vowel', {
-            url: '/test-vowel',
+            url: '/test-vowel/{questionNumber}',
             templateUrl: 'templates/partial-test-vowel.html',
             controller: 'TestVowelController'
         })
-        .state('test-vowel-true', {
-            url: '/test-vowel-true',
-            templateUrl: 'templates/partial-test-vowel-true.html'
-        })
-        .state('test-vowel-false', {
-            url: '/test-vowel-false',
-            templateUrl: 'templates/partial-test-vowel-false.html'
+        .state('test-vowel-result', {
+            url: '/test-vowel-result/{result}/{vowel}/{question_number}',
+            templateUrl: 'templates/partial-test-vowel-result.html',
+            controller: function($scope, $stateParams){
+              $scope.result = $stateParams.result;
+              $scope.vowel = $stateParams.vowel;
+              $scope.question_number = $stateParams.question_number;
+            }
         });
 });
 
-EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state', function($window, $scope, $log, $state){
+EFLApp.controller("TestVowelController", 
+                  ['$window', 
+                   '$scope', 
+                   '$log', 
+                   '$state', 
+                   '$stateParams', 
+                   function($window, $scope, $log, $state, $stateParams){
   $scope.shuffleArray = function(arr){
     var new_arr = arr.slice(0);
     
@@ -61,8 +68,9 @@ EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state',
     }
   ];
   
-  $scope.question_number = 0;
-  $scope.current_question = $scope.questions[$scope.question_number];
+  $scope.question_number = $stateParams.questionNumber || 1;
+  $scope.question_number = parseInt($scope.question_number);
+  $scope.current_question = $scope.questions[$scope.question_number-1];
   $scope.current_answer = "";
   
   $scope.media_list_name = $scope.current_question.vowel;
@@ -96,12 +104,8 @@ EFLApp.controller("TestVowelController", ['$window', '$scope', '$log', '$state',
   };
   
   $scope.nextQuestion = function(){
-    $scope.current_question++;
-    if( $scope.current_answer.indexOf('_') < 0 ){
-      $state.go('test-vowel-true');
-    } else {
-      $state.go('test-vowel-false');
-    }
+    var result = $scope.current_answer.indexOf('_') < 0;
+    $state.go('test-vowel-result', {result: result, vowel: $scope.current_question.vowel, question_number: $scope.question_number});
   };
 }]);
 
