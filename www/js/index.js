@@ -1,6 +1,6 @@
 var EFLApp = angular.module('EFLApp', ['ui.router', 'ngAudio']);
 
-EFLApp.config(function($stateProvider, $urlRouterProvider){
+EFLApp.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/start-screen');
     
     $stateProvider
@@ -36,77 +36,69 @@ EFLApp.config(function($stateProvider, $urlRouterProvider){
         });
 });
 
-EFLApp.controller("TestVowelController", 
-                  ['$window', 
-                   '$scope', 
-                   '$log', 
-                   '$state', 
-                   '$stateParams', 
-                   function($window, $scope, $log, $state, $stateParams){
-  $scope.shuffleArray = function(arr){
-    var new_arr = arr.slice(0);
-    
-    return new_arr.sort(function(){ return 0.5 - Math.random() });
-  };
+EFLApp.controller(
+  "TestVowelController", 
+  [
+    '$window', 
+    '$scope', 
+    '$log', 
+    '$state', 
+    '$stateParams', 
+    '$http',
+    function($window, $scope, $log, $state, $stateParams, $http){
+      $scope.shuffleArray = function(arr){
+       var new_arr = arr.slice(0);
+
+       return new_arr.sort(function(){ return 0.5 - Math.random() });
+      };
   
-  $scope.questions = [
-    { 
-      vowel: "success", 
-      media: [
-        "success.mp3",
-        "_success1.mp3",
-        "_success2.mp3"
-      ]
-    },
-    {
-      vowel: "opportunity",
-      media: [
-        "opportunity.mp3",
-        "_opportunity1.mp3",
-        "_opportunity2.mp3"
-      ]
-    }
-  ];
-  
-  $scope.question_number = $stateParams.questionNumber || 1;
-  $scope.question_number = parseInt($scope.question_number);
-  $scope.current_question = $scope.questions[$scope.question_number-1];
-  $scope.current_answer = "";
-  
-  $scope.media_list_name = $scope.current_question.vowel;
-  $scope.media_list = $scope.shuffleArray($scope.current_question.media);
-  
-  $scope.media_player = null;
-  
-  $scope.play = function(src){
-    var audio_path = "www/audio/";
-    var full_path = cordova.file.applicationDirectory + audio_path + src;
-    $log.log("playing: " + full_path);
-    
-    if($scope.media_player !== null){
-      $scope.media_player.release();
-    }
-    $scope.media_player = new Media(full_path);
-    $scope.media_player.play();
-  };
-  
-  $scope.playAt = function(index){
-    $log.log("halo " + index);
-    $log.log($scope.media_list[index]);
-//    $window.alert(index);
-    if( typeof cordova !== "undefined"){
-      $scope.play($scope.media_list[index]);
-    }
-  };
-  
-  $scope.nextChar = function(start, offset){
-    return String.fromCharCode(start.charCodeAt(0) + offset);
-  };
-  
-  $scope.nextQuestion = function(){
-    var result = $scope.current_answer.indexOf('_') < 0;
-    $state.go('test-vowel-result', {result: result, vowel: $scope.current_question.vowel, question_number: $scope.question_number});
-  };
+      $scope.questions = [];
+      $http.get('/questions.json').success(function(data){
+        $scope.questions = data;
+//        $log.log($scope.questions);
+
+        $scope.question_number = $stateParams.questionNumber || 1;
+        $scope.question_number = parseInt($scope.question_number);
+        $scope.question_number = $scope.question_number > $scope.questions.length? $scope.questions.length : $scope.question_number;
+        $scope.current_question = $scope.questions[$scope.question_number-1];
+
+        $scope.media_list_name = $scope.current_question.vowel;
+        $scope.media_list = $scope.current_question.media;
+      });
+
+      $scope.current_answer = "";
+
+      $scope.media_player = null;
+
+      $scope.play = function(src){
+        var audio_path = "www/audio/";
+        var full_path = cordova.file.applicationDirectory + audio_path + src;
+        $log.log("playing: " + full_path);
+
+        if($scope.media_player !== null){
+          $scope.media_player.release();
+        }
+        $scope.media_player = new Media(full_path);
+        $scope.media_player.play();
+      };
+
+      $scope.playAt = function(index){
+        $log.log("halo " + index);
+        $log.log($scope.media_list[index]);
+    //    $window.alert(index);
+        if( typeof cordova !== "undefined"){
+          $scope.play($scope.media_list[index]);
+        }
+      };
+
+      $scope.nextChar = function(start, offset){
+        return String.fromCharCode(start.charCodeAt(0) + offset);
+      };
+
+      $scope.nextQuestion = function(){
+        var result = $scope.current_answer.indexOf('_') < 0;
+        $state.go('test-vowel-result', {result: result, vowel: $scope.current_question.vowel, question_number: $scope.question_number});
+      };
 }]);
 
 var app = {

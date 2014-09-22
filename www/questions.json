@@ -1,0 +1,18 @@
+[
+    { 
+      "vowel": "success", 
+      "media": [
+        "success.mp3",
+        "_success1.mp3",
+        "_success2.mp3"
+      ]
+    },
+    {
+      "vowel": "opportunity",
+      "media": [
+        "opportunity.mp3",
+        "_opportunity1.mp3",
+        "_opportunity2.mp3"
+      ]
+    }
+]
